@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int commonPre[50010];
+    void z_function(string s,int m) {
+        int n = s.size();
+        vector<int> z(n);
+        int l = 0,r = 0;
+        for(int i = 1; i < n; i++) {
+            if(i < r) z[i] = min(r - i,z[i-l]);
+            while(i+z[i] < n and s[z[i]] == s[i+z[i]]) z[i]++;
+            if(i+z[i] > r) {
+                l = i;
+                r = i+ z[i];
+            }
+            if(i-m-1 >= 0) commonPre[i-m-1] = max(commonPre[i-m-1],z[i]);
+        }
+        
+    }
+    int minValidStrings(vector<string>& words, string target) {
+        for(auto it : words) {
+            string s = it + "$" + target;
+            z_function(s,it.size());
+        }
+        
+        int n = target.size();
+        
+        int now =0,mx = 0,steps=0;
+        for(int i = 0; i < n; i++) {
+            mx = max(mx,i + commonPre[i]);
+            if(i == now) {
+                now = mx;
+                steps++;
+                if(now > n) break;
+            }
+        }
+
+        return (now < n? -1 : steps);
+    }
+};
