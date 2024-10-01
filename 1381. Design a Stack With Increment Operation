@@ -25,4 +25,38 @@ public:
         for(int i = 0; i < min(k,ind); i++) a[i] += val;
     }
 };
+/// optimal one...
+
+class CustomStack {
+public:
+    
+    int sz;
+    vector<int> v,value;
+    CustomStack(int maxSize) {
+        sz = maxSize;
+    }
+    void push(int x) {
+        if(v.size() < sz) {
+            v.push_back(x);
+            value.push_back(0);
+        }
+    }
+    
+    int pop() {
+        if(v.size() == 0) return -1;
+        else {
+            if(v.size() > 1) value[v.size()-2] += value[v.size()-1];
+            int p = v.back() + value[v.size()-1];
+            v.pop_back();
+            value.pop_back();
+            return p;
+        }
+    }
+    
+    void increment(int k, int val) {
+        k = min(k,(int)v.size());
+        if(k) value[k-1] += val;
+    }
+};
+
 
