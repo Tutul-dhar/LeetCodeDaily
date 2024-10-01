@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool canArrange(vector<int>& arr, int k) {
+        int a[k+1];
+        memset(a,0,sizeof a);
+        for(int ch : arr) a[((ch%k) + k)%k]++;
+        for(int i = 0; i < k; i++) {
+            int e = (k - i)%k;
+            if(e == i) {
+                if(a[i]%2) return false;
+            } else {
+                if(a[i] != a[e]) return false;
+            }
+        }
+        return true;
+    }
+};
