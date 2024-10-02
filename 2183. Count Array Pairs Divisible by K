@@ -1,0 +1,31 @@
+class Solution {
+public:
+    long long countPairs(vector<int>& nums, int k) {
+        int a[100010];
+        memset(a,0,sizeof a);
+        vector<int> div;
+        for(int i = 1; i*i <= k; i++) {
+            if(k%i == 0) {
+                div.push_back(i);
+                if(i*i != k) div.push_back(k/i);
+            }
+        }
+        for(int ch : nums) {
+            for(int ch1 : div) {
+                if(ch%ch1 == 0) a[ch1]++;
+            }
+        }
+
+        long long ans = 0;
+        for(int ch : nums) {
+            for(int ch1 : div) {
+                if(ch%ch1 == 0) a[ch1]--;
+            }
+            int gc = __gcd(ch,k);
+            int e = k/gc;
+            ans += a[e];
+        }
+        return ans;
+
+    }
+};
