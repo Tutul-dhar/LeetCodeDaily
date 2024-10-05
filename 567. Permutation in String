@@ -1,0 +1,27 @@
+class Solution {
+public:
+    bool check(int arr1[],int arr2[]) {
+        for(int i = 0; i < 26; i++) {
+            if(arr1[i] != arr2[i]) return false;
+        }
+        return true;
+    }
+    bool checkInclusion(string s1, string s2) {
+        int arr1[26],arr2[26];
+        memset(arr1,0,sizeof arr1);
+        memset(arr2,0,sizeof arr2);
+        for(auto ch : s1) {
+            arr1[ch-'a']++;
+        }
+        int len = s1.size();
+        for(int i = 0; i < s2.size(); i++) {
+            if(i >= len) {
+                if(check(arr1,arr2)) return true;
+                arr2[s2[i-len]-'a']--;
+            }
+            arr2[s2[i]-'a']++;
+        }
+        if(check(arr1,arr2)) return true;
+        return false;
+    }
+};
