@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int minLength(string s) {
+        vector<char> v;
+        v.push_back('Z');
+        for(char it : s) {
+            if(it == 'B') {
+                if(v.back() == 'A') v.pop_back();
+                else v.push_back(it);
+            }
+            else if(it == 'D') {
+                if(v.back() == 'C') v.pop_back();
+                else v.push_back(it); 
+            } else v.push_back(it);
+        }
+        return v.size()-1;
+    }
+};
