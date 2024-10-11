@@ -1,0 +1,66 @@
+///using set...
+class Solution {
+public:
+    int smallestChair(vector<vector<int>>& times, int targetFriend) {
+        multiset<pair<int,int>> ms;
+        set<int> s;
+        int arrivalTime = times[targetFriend][0];
+        for(int i = 0; i < times.size()+1; i++) s.insert(i);
+        sort(times.begin(),times.end());
+        for(auto it : times) {
+            int arrival = it[0],leaving = it[1];
+            while(ms.size()) {
+                auto it = ms.begin();
+                if(it->first <= arrival) s.insert(it->second);
+                else break;
+                ms.erase(it);
+            }
+
+            if(arrival == arrivalTime) {
+                return *s.begin();
+            }
+            ms.insert({leaving,*s.begin()});
+            s.erase(s.begin());
+        }
+        return 0;
+    }
+};
+
+
+///using priority queue(Min Heap)...
+class Solution {
+public:
+    int smallestChair(vector<vector<int>>& times, int targetFriend) {
+        priority_queue<int, vector<int>, greater<int>> freeChairs;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> leavingChairs;
+        
+        int arrivalTime = times[targetFriend][0];
+        int numFriends = times.size();
+        
+        for (int i = 0; i < numFriends + 1; i++) {
+            freeChairs.push(i);
+        }
+        
+        sort(times.begin(), times.end());
+
+        for (auto& it : times) {
+            int arrival = it[0], leaving = it[1];
+            
+            while (!leavingChairs.empty() && leavingChairs.top().first <= arrival) {
+                freeChairs.push(leavingChairs.top().second);
+                leavingChairs.pop();
+            }
+            
+            if (arrival == arrivalTime) {
+                return freeChairs.top();
+            }
+            
+            int chairAssigned = freeChairs.top();
+            freeChairs.pop();
+            
+            leavingChairs.push({leaving, chairAssigned});
+        }
+
+        return 0;
+    }
+};
