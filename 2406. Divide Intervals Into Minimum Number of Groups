@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int minGroups(vector<vector<int>>& v) {
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>> pq;
+        priority_queue<int,vector<int>,greater<int>> p;
+        int ans = 0;
+        for(int i = 1; i <= v.size(); i++) p.push(i);
+        sort(v.begin(),v.end());
+        for(auto it : v) {
+            while(pq.size()) {
+                auto it1 = pq.top();
+                if(it1.first < it[0]) {
+                    p.push(it1.second);
+                    pq.pop();
+                } else break;
+            }
+            ans = max(ans,p.top());
+            pq.push({it[1],p.top()});
+            p.pop();
+        }
+        return ans;
+    }
+};
