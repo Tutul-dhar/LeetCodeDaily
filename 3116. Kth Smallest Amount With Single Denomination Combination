@@ -1,0 +1,29 @@
+class Solution {
+public:
+    long long findKthSmallest(vector<int>& coins, int q) {
+        long long ans = 0,i = 0,j = 1e12,n = coins.size();
+        while(i <= j) {
+            long long mid = (i + j)/2ll;
+            long long p = 0;
+            for(long long k = 1; k < (1ll<<n); k++) {
+                long long lcm = 1,cnt = 0;
+                for(long long kk = 0; kk < n; kk++) {
+                    if((k & (1ll<<kk))) {
+                        lcm = (lcm*1ll*coins[kk])/__gcd(lcm,(long long)coins[kk]);
+                        cnt++;
+                    }
+                    if(lcm > 1e12) break;
+                }
+
+                if(cnt%2ll == 1) p += mid/lcm;
+                else p -= mid/lcm;
+            }
+            
+            if(p >= (long long)q) {
+                ans = mid;
+                j = mid-1;
+            } else i = mid+1;
+        }
+        return ans;
+    }
+};
