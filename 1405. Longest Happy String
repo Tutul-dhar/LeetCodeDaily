@@ -1,0 +1,36 @@
+class Solution {
+public:
+    string longestDiverseString(int a, int b, int c) {
+        set<pair<int,char>> s;
+        s.insert({a,'a'});
+        s.insert({b,'b'});
+        s.insert({c,'c'});
+        string ans = "";
+        int len = 0;
+        while(1) {
+            auto it = s.end();
+            it--;
+            char ch = it->second;
+            int fi1 = it->first;
+            if(fi1 == 0) break;
+            if(len > 1 and ans[len-1] == ans[len-2] and ans[len-1] == ch) {
+                it--;
+                if(it->first == 0) break;
+                else {
+                    int fi = it->first;
+                    char ch1 = it->second;
+                    ans += ch1;
+                    len++;
+                    s.erase(it);
+                    s.insert({fi-1,ch1});
+                }
+            } else {
+                ans += ch;
+                len++;
+                s.erase(it);
+                s.insert({fi1-1,ch});
+            }
+        }
+        return ans;
+    }
+};
