@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int countMaxOrSubsets(vector<int>& nums) {
+        int _or = 0;
+        for(int ch : nums) _or |= ch;
+        int ans = 0,n = nums.size();
+        for(int i = 0; i < (1<<n); i++) {
+            int _or1 = 0;
+            for(int j = 0; j < n; j++) {
+                if((1<<j)&i) _or1 = _or1|nums[j];
+            }
+            if(_or1 == _or) ans++;
+        }
+        return ans;
+    }
+};
