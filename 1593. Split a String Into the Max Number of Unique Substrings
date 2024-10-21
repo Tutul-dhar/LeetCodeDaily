@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int maxUniqueSplit(string s) {
+        int ans = 1,n = s.size();
+        for(int i = 0; i < (1<<n); i++) {
+            set<string> st;
+            string p = "";
+            for(int j = 0; j < n; j++) {
+                p += s[j];
+                if((1<<j)&i) {
+                    st.insert(p);
+                    p = "";
+                }
+            }
+            if(p.size()) st.insert(p);
+            ans = max(ans,(int)st.size());
+        }
+        return ans;
+    }
+};
