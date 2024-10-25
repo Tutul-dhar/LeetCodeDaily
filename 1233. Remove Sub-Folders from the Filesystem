@@ -1,0 +1,34 @@
+class Solution {
+public:
+    vector<string> removeSubfolders(vector<string>& folder) {
+        vector<pair<int,string>> v;
+        for(auto it : folder) {
+            int cnt = 0;
+            for(char ch : it) {
+                if(ch == '/') cnt++;
+            }
+            v.push_back({cnt,it});
+        }
+        sort(v.begin(),v.end());
+        vector<string> ans;
+        map<string,int> ma;
+        for(auto it : v) {
+            string s = it.second;
+            string ss = "",p = "";
+            for(char ch : s) {
+                if(ch == '/') {
+                    ss += p;
+                    p = "";
+                }
+                if(ma[ss]) {
+                    break;
+                }
+                p += ch;
+            }
+            if(p.size()) ss += p;
+            if(ma[ss] == 0) ans.push_back(ss);
+            ma[ss] = 1;
+        }
+        return ans;
+    }
+};
