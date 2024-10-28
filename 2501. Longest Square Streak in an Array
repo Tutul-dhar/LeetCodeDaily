@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int longestSquareStreak(vector<int>& nums) {
+        int dp[100100];
+        memset(dp,0,sizeof dp);
+        int ans = 1;
+        sort(nums.begin(),nums.end());
+        for(int ch : nums) {
+            int sq =sqrt(ch);
+            if(sq * sq == ch) {
+                dp[ch] = dp[sq] + 1;
+                ans = max(dp[ch],ans);
+            } else dp[ch] = 1;
+        }
+        if(ans == 1) ans = -1;
+        return ans;
+    }
+    
+};
