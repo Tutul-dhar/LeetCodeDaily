@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool rotateString(string s, string goal) {
+        int len = s.size();
+        while(len >= 0) {
+            if(s == goal) return true;
+            char ch = s[0];
+            s.erase(s.begin());
+            s += ch;
+            len--;
+        }
+        if(s == goal) return true;
+        return false;
+    }
+};
