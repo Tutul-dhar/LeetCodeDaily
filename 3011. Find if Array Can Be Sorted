@@ -1,0 +1,16 @@
+class Solution {
+public:
+    bool canSortArray(vector<int>& nums) {
+        for(int i = 0; i < nums.size(); i++) {
+            for(int j = i-1; j >= 0; j--) {
+                if(nums[j] > nums[j+1]) {
+                    int e = __builtin_popcount(nums[j]);
+                    int ee = __builtin_popcount(nums[j+1]);
+                    if(e != ee) return false;
+                    swap(nums[j],nums[j+1]);
+                } else break;
+            }
+        }
+        return true;
+    }
+};
