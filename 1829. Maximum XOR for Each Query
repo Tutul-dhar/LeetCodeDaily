@@ -1,0 +1,21 @@
+class Solution {
+public:
+    vector<int> getMaximumXor(vector<int>& nums, int maximumBit) {
+        vector<int>v;
+        int jor = 0;
+        for(int ch : nums) jor ^= ch;
+        int mx = (1<<maximumBit) - 1;
+        for(int i = nums.size()-1; i >= 0; i--) {
+           // int p = 0;
+           // for(int j = 19; j >= 0; j--) {
+           //     int val = (1<<j);
+           //     if((val&jor) == 0 and (p + val) < mx) {
+           //         p += val;
+           //     }
+           // }
+            v.push_back(mx ^ jor);
+            jor ^= nums[i];
+        }
+        return v;
+    }
+};
