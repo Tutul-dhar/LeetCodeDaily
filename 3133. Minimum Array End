@@ -1,0 +1,27 @@
+class Solution(object):
+    def minEnd(self, n, x):
+        """
+        :type n: int
+        :type x: int
+        :rtype: int
+        """
+        ans,j = 0,0
+        #n -= 1
+        while n > 1:
+            j = 0
+            for i in range(0,45):
+                if ((1<<i)&x) == 0:
+                    j += 1
+                if (1<<j) >= n:
+                    ans += (1<<i)
+                    n -= (1<<(j-1))
+                    break
+        for i in range(0,32):
+            if ((1<<i)&x):
+                ans += (1<<i)
+        return ans
+
+            
+            
+
+        
