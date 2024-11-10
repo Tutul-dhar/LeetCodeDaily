@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int minimumSubarrayLength(vector<int>& nums, int k) {
+        int n = nums.size();
+        int a[n+1][32];
+        memset(a,0,sizeof a);
+        for(int i = 1; i <= n; i++) {
+            for(int j = 0; j < 32; j++) {
+                if((1<<j)&nums[i-1]) {
+                    a[i][j] = 1;
+                } else a[i][j] = 0;
+                a[i][j] += a[i-1][j];
+            }
+        }
+        int ans = n+1;
+        for(int i = 1; i <= n; i++) {
+            int l = i,r = n;
+            while(l <= r) {
+                int mid = (l + r)/2;
+                int x = 0;
+                for(int kk = 0; kk < 32; kk++) {
+                    if(a[mid][kk] - a[i-1][kk]) x += (1<< kk);
+                    if(x >= k) break;
+                }
+                //cout << x << endl;
+                if(x >= k) {
+                    ans = min(ans,mid - i + 1);
+                    r = mid - 1;
+                } else l = mid+1;
+            }
+            
+        }
+        if(ans > n) ans = -1;
+        return ans;
+    }
+};
