@@ -1,0 +1,21 @@
+class Solution {
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        long long ans = 0;
+        sort(nums.begin(),nums.end());
+        for(int i = 1; i < nums.size(); i++) {
+            int p = lower - nums[i];
+            int left = lower_bound(nums.begin(),nums.end(),p) - nums.begin();
+            p = upper - nums[i];
+            int right = upper_bound(nums.begin(),nums.end(),p) - nums.begin();
+            if(right == nums.size()) right--;
+            right = min(right,i);
+            if(nums[right] > p) right--;
+            if(right == i) right--;
+            if(left > i) continue;
+            //cout << left << ' ' << right << endl;
+            ans += (right - left + 1);
+        }
+        return ans;
+    }
+};
