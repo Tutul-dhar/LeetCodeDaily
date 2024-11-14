@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int minimizedMaximum(int n, vector<int>& quantities) {
+        int ans,i = 1,j = 1e5;
+        while(i <= j) {
+            int mid = (i + j)>>1;
+            int cnt = 0;
+            for(int ch : quantities) {
+                cnt += (ch / mid + !(ch%mid == 0));
+                if(cnt > n) break;
+            }
+            if(cnt <= n) {
+                ans = mid;
+                j = mid - 1;
+            } else i = mid + 1;
+        }
+        return ans;
+    }
+};
