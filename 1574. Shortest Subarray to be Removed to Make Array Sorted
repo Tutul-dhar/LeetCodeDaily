@@ -1,0 +1,45 @@
+
+class Solution {
+public:
+    int findLengthOfShortestSubarray(vector<int>& arr) {
+        int n = arr.size();
+        int pref[n],suf[n];
+        pref[0] = 0,suf[n-1] = 0;
+        for(int i = 1; i < n; i++) {
+            if(arr[i] < arr[i-1]) pref[i] = 1;
+            else pref[i] = 0;
+            pref[i] += pref[i-1];
+        }
+        for(int i = n-2; i >= 0; i--) {
+            if(arr[i+1] < arr[i]) suf[i] = 1;
+            else suf[i] = 0;
+            suf[i] += suf[i+1];
+        }
+        //for(int i = 0; i < n; i++) cout << pref[i] << ' ' << suf[i] << endl;
+        int i = 0, j = n,ans;
+        while(i <= j) {
+            int mid = (i + j)>>1;
+            bool ok = false;
+            for(int i = 0; i+mid <= n; i++) {
+                int e = 0,ee = 0,val1 = -1,val2 = 1e9+1;
+                if(i) {
+                    e = pref[i-1];
+                    val1 = arr[i-1];
+                }
+                if(i+mid < n) {
+                    ee = suf[i+mid];
+                    val2 = arr[i+mid];
+                }
+                if(e == 0 and ee == 0 and val1 <= val2) {
+                    ok = true;
+                    break;
+                }
+            }
+            if(ok) {
+                ans = mid;
+                j = mid-1;
+            } else i = mid+1;
+        }
+        return ans;
+    }
+};
