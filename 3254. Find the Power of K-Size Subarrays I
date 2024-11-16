@@ -1,0 +1,19 @@
+class Solution {
+public:
+    vector<int> resultsArray(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> ans,pref(n+1,0);
+        for(int i = 1; i < n; i++) {
+            pref[i] = (nums[i-1] >= nums[i]);
+            pref[i] += pref[i-1];
+        }
+        //for(int i = 0; i < n; i++) cout << pref[i] << ' ';
+        for(int i = k-1; i < n; i++) {
+            int p = pref[i];
+            p -= pref[i-k+1];
+            if(p == 0 and (nums[i] - nums[i-k+1] + 1) == k) ans.push_back(nums[i]);
+            else ans.push_back(-1);
+        }
+        return ans;
+    }
+};
