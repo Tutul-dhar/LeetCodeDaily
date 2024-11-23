@@ -1,0 +1,27 @@
+class Solution {
+public:
+    int minZeroArray(vector<int>& nums, vector<vector<int>>& queries) {
+        int ans = -1,i = 0,j = queries.size();
+        vector<int> a(nums.size() + 2,0);
+        while(i <= j) {
+            int mid = (i + j)>>1;
+            for(int k = 0; k < mid; k++) {
+                a[queries[k][0]] += queries[k][2];
+                a[queries[k][1]+1] -= queries[k][2];
+            }
+            bool ok = true;
+            for(int k = 1; k < nums.size(); k++) a[k] += a[k-1];
+            for(int k = 0; k < nums.size(); k++) {
+                if(a[k] < nums[k]) {
+                    ok = false;
+                }
+                a[k] = 0;
+            }
+            if(ok) {
+                ans = mid;
+                j = mid-1;
+            } else i = mid+1;
+        }
+        return ans;
+    }
+};
