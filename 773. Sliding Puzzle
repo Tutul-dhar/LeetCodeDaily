@@ -1,0 +1,59 @@
+class Solution {
+public:
+    int slidingPuzzle(vector<vector<int>>& board) {
+        map<string,int> ma;
+        vector<int> v[6];
+        v[0].push_back(1);
+        v[0].push_back(3);
+        v[1].push_back(0);
+        v[1].push_back(2);
+        v[1].push_back(4);
+        v[2].push_back(1);
+        v[2].push_back(5);
+        v[3].push_back(0);
+        v[3].push_back(4);
+        v[4].push_back(1);
+        v[4].push_back(3);
+        v[4].push_back(5);
+        v[5].push_back(4);
+        v[5].push_back(2);
+        //ma["012345"] = 2;
+        ma["123450"] = 2;
+
+        string p = "";
+        for(int i = 0; i < 2; i++) {
+            for(int j = 0; j < 3; j++) p += ('0'+board[i][j]);
+        }
+        //cout << p << endl;
+        queue<pair<int,string>> q;
+        q.push({0,p});
+        int ans = 1e5;
+        while(q.size()) {
+            auto it = q.front();
+            q.pop();
+            int e = it.first;
+            p = it.second;
+            //cout << p << endl;
+            int ind = 0;
+            if(ma[p] == 2) {
+                ans = min(ans, e);
+                continue;
+            }
+            if(ma[p]) continue;
+            ma[p] = 1;
+            for(int i = 0; i < 6; i++) {
+                if(p[i] == '0') {
+                    ind = i;
+                    break;
+                }
+            }
+            for(int ch : v[ind]) {
+                swap(p[ind],p[ch]);
+                q.push({e + 1,p});
+                swap(p[ind],p[ch]);
+            }
+        }
+        if(ans == 1e5) ans = -1;
+        return ans;
+    }
+};
