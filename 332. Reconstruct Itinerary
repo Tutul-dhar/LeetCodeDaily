@@ -1,0 +1,30 @@
+class Solution {
+public:
+    map<string,vector<string>> adj;
+    map<string,int> outDegree;
+    vector<string> eular_path;
+    void find_eular_path(string node) {
+        while(outDegree[node]) {
+            outDegree[node]--;
+            find_eular_path(adj[node][outDegree[node]]);
+        }
+        eular_path.push_back(node);
+        //cout << node << endl;
+        
+    }
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        for(auto it : tickets) {
+            adj[it[0]].push_back(it[1]);
+            outDegree[it[0]]++;
+        }
+        for(auto it : tickets) {
+            sort(adj[it[0]].rbegin(),adj[it[0]].rend());
+            
+        }
+        string start_node = "JFK";
+        find_eular_path(start_node);
+        reverse(eular_path.begin(),eular_path.end());
+        
+        return eular_path;
+    }
+};
