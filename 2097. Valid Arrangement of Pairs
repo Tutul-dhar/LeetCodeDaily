@@ -1,0 +1,39 @@
+class Solution {
+public:
+    map<int,vector<int>> adj;
+    map<int,int> inDegree,outDegree;
+    vector<int> eular_path;
+    void find_eular_path(int node) {
+        while(outDegree[node]) {
+            outDegree[node]--;
+            find_eular_path(adj[node][outDegree[node]]);
+        }
+        eular_path.push_back(node);
+        //cout << node << endl;
+        
+    }
+    vector<vector<int>> validArrangement(vector<vector<int>>& pairs) {
+        for(auto it : pairs) {
+            adj[it[0]].push_back(it[1]);
+            inDegree[it[1]]++;
+            outDegree[it[0]]++;
+        }
+        int start_node = pairs[0][0];
+        for(auto it : pairs) {
+            if(outDegree[it[0]] - inDegree[it[0]] == 1) {
+                start_node = it[0];
+                break;
+            }
+            if(outDegree[it[1]] - inDegree[it[1]] == 1) {
+                start_node = it[1];
+                break;
+            }
+        }
+        //cout << start_node << endl;
+        find_eular_path(start_node);
+        reverse(eular_path.begin(),eular_path.end());
+        vector<vector<int>> ans;
+        for(int i = 0; i < eular_path.size()-1; i++) ans.push_back({eular_path[i],eular_path[i+1]});
+        return ans;
+    }
+};
