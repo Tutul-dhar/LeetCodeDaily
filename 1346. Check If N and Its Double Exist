@@ -1,0 +1,15 @@
+class Solution {
+public:
+    bool checkIfExist(vector<int>& arr) {
+        map<int,int> ma;
+        for(int ch : arr) {
+            ma[ch]++;
+            if(ma[ch*2] and ch) return true;
+            if(abs(ch)%2 == 0 and ch) {
+               if(ma[ch/2]) return true; 
+            }
+            if(ch == 0 and ma[ch] > 1) return true; 
+        }
+        return false;
+    }
+};
