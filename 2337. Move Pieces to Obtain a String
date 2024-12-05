@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool canChange(string a, string b) {
+        int r = 0,l = 0;
+        for(int i = 0; i < a.size(); i++) {
+            if(a[i] == b[i]) {
+                if(a[i] == 'L' and r) return false;
+                if(a[i] == 'R' and l) return false;
+                continue;
+            }
+            if(a[i] == 'L') {
+                if(l == 0) return false;
+                l--;
+            }
+            else if(a[i] == 'R') {
+                if(l) return false;
+                r++;
+            }
+
+            if(b[i] == 'L') {
+                if(r) return false;
+                l++;
+            }else if(b[i] == 'R') {
+                if(r == 0) return false;
+                r--;
+            }
+        }
+        if(l or r) return false;
+        return true;
+    }
+};
