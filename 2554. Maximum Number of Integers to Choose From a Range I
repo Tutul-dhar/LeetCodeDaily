@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int maxCount(vector<int>& banned, int n, int maxSum) {
+        vector<int> a(10010,0);
+        for(int ch : banned) a[ch] = 1;
+        int ans = 0,p = 0,q=0;
+        for(int i = 1; i <= n; i++) {
+            if(a[i]) {
+                p += i;
+                q++;
+                continue;
+            }
+            int r = (i*(i+1))>>1;
+            r -= p;
+            if(r <= maxSum) {
+                ans = i - q;
+            } else break;
+        }
+        return ans;
+    }
+};
