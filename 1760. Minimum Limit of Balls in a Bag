@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int minimumSize(vector<int>& nums, int maxOperations) {
+        int i = 1,j = 1e9,ans;
+        while(i <= j) {
+            int mid = (i + j)>>1;
+            int count = 0;
+            for(int ch : nums) {
+                int e = (ch + mid - 1)/mid;
+                count += (e - 1);
+            }
+            if(count <= maxOperations) {
+                ans = mid;
+                j = mid - 1;
+            } else i = mid + 1;
+        }
+        return ans;
+    }
+};
