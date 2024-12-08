@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int maxTwoEvents(vector<vector<int>>& events) {
+        for(int i = 0; i < events.size(); i++) {
+            swap(events[i][0],events[i][1]);
+        }
+        sort(events.begin(),events.end());
+        vector<int> v,a;
+        int mx = 0,ans = 0;
+        v.push_back(0);
+        a.push_back(0);
+        for(int i = 0; i < events.size(); i++) {
+            int ind = lower_bound(v.begin(),v.end(),events[i][1]-1) - v.begin();
+            if(ind == v.size()) ind--;
+            if(v[ind] >= events[i][1]) ind--;
+            //cout << v[ind] << ' ' << events[i][1] << ' ' << ind << endl;
+            ans = max(ans,a[ind] + events[i][2]);
+            mx = max(mx,events[i][2]);
+            if(v.back() != events[i][0]) {
+                v.push_back(events[i][0]);
+                a.push_back(mx);
+            } else a[a.size()-1] = max(a[a.size()-1],mx);
+        }
+        return ans;
+    }
+};
