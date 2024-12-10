@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int maximumLength(string s) {
+        vector<vector<int>> adj(26);
+        int n = s.size();
+        for(int i = 0; i < n;) {
+            int j = i;
+            while(j < n and s[i] == s[j]) {
+                j++;
+            }
+            adj[(s[i] - 'a')].push_back(j-i);
+            i = j;
+        }
+        int l = 1,r = n,ans = -1;
+        while(l <= r) {
+            int mid = (l + r)>>1;
+            bool ok = false;
+            for(int i = 0; i < 26;i++) {
+                int cnt = 0;
+                for(int j = 0; j < adj[i].size(); j++) {
+                    cnt += max(0,adj[i][j] - mid+1);
+                    if(cnt >= 3) break;
+                }
+                if(cnt >= 3) {
+                    ok = true;
+                    break;
+                }
+            }
+            if(ok) {
+                ans = mid;l = mid+1;
+            } else r = mid-1;
+        }
+        return ans;
+    }
+};
