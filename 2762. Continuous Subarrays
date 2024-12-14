@@ -1,0 +1,39 @@
+class Solution {
+public:
+    long long continuousSubarrays(vector<int>& nums) {
+        multiset<int> ms;
+        int i = 0,j = 0,n = nums.size();
+        long long ans = 0;
+        while(j < n) {
+            if(ms.size() == 0) {
+                ms.insert(nums[j]);
+                j++;
+            } else {
+                auto it = ms.begin();
+                auto it1 = ms.end();
+                it1--;
+                if(abs(*it - nums[j]) <= 2 and (*it1 - nums[j]) <= 2) {
+                    ms.insert(nums[j]);
+                    j++;
+                } else {
+                    while(i < j) {
+                        it = ms.begin();
+                        it1 = ms.end();
+                        it1--;
+                        if(abs(*it - nums[j]) <= 2 and abs(*it1 - nums[j]) <= 2) break;
+                        it = ms.find(nums[i]);
+                        ms.erase(it);
+                        int e = j - i;
+                        ans += e;
+                        i++;
+                    }
+                }
+            }
+        }
+        while(i < j) {
+            ans += (j - i);
+            i++;
+        }
+        return ans;
+    }
+};
