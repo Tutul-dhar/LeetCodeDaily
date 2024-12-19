@@ -1,0 +1,11 @@
+class Solution(object):
+    def maxChunksToSorted(self, arr):
+        ans = 0
+        mx = 0
+        for i in range(0,len(arr)):
+            mx = max(mx,arr[i])
+            if(mx == i):
+                ans += 1
+                mx = 0
+        return ans
+        
