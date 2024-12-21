@@ -1,0 +1,60 @@
+class Solution {
+public:
+    vector<vector<int>> adj;
+    void dfs(int node,int pa,vector<int> &par) {
+        par[node] = pa;
+        for(int ch : adj[node]) {
+            if(ch != pa) dfs(ch,node,par);
+        }
+    }
+    int maxKDivisibleComponents(int n, vector<vector<int>>& edges, vector<int>& values, int k) {
+        vector<int> v;
+        vector<int> cnt(n,0),par(n,-1),vis(n,0);
+        adj.resize(n);
+        for(auto it : edges) {
+            cnt[it[0]]++;
+            cnt[it[1]]++;
+            adj[it[0]].push_back(it[1]);
+            adj[it[1]].push_back(it[0]);
+        }
+        //if(n == 1) return 1;
+        dfs(0,-1,par);
+        for(int i = 1; i < n; i++) {
+            if(cnt[i] == 1) {
+                v.push_back(i);
+                vis[i] = 1;
+            }
+        }
+        int ans = 0;
+        vis[0] = 1;
+        while(v.size()) {
+            int ind = v.back();
+            int val = values[ind];
+            v.pop_back();
+            if(cnt[ind] <= 1 and val%k == 0) {
+                int pa = par[ind];
+                //cout << ind << endl;
+                if(pa != -1) {
+                    cnt[pa]--;
+                    if(cnt[pa] <= 1 and vis[pa] == 0) {
+                        v.push_back(pa);
+                        vis[pa] = 1;
+                    }
+                }
+                ans++;
+            } else {
+                int pa = par[ind];
+                if(pa != -1) {
+                    values[pa] += val;
+                    values[pa] %= k;
+                    cnt[pa]--;
+                    if(cnt[pa] <= 1 and vis[pa] == 0) {
+                        v.push_back(pa);
+                        vis[pa] = 1;
+                    }
+                }
+            }
+        }
+        return ans+1;
+    }
+};
