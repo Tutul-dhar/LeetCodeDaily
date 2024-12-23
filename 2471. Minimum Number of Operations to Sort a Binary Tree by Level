@@ -1,0 +1,48 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+#define Max 100100
+class Solution {
+public:
+    vector<int> v[Max];
+    int level = 0;
+    void dfs(TreeNode* node,int p = 0) {
+        if(!node) return;
+        level = max(level,p);
+        v[p].push_back(node->val);
+        dfs(node->left,p+1);
+        dfs(node->right,p+1);
+    }
+    int minimumOperations(TreeNode* root) {
+        dfs(root);
+        vector<int> pos(100100);
+        int ans = 0;
+        for(int i = 1; i <= level; i++) {
+            vector<int> vv;
+            for(int j = 0; j < v[i].size(); j++) {
+                vv.push_back(v[i][j]);
+                pos[v[i][j]] = j;
+            }
+            sort(vv.begin(),vv.end());
+            for(int j = v[i].size()-1; j >= 0 ; j--) {
+                int val = pos[vv[j]];
+                
+                if(val != j) {
+                    ans++;
+                    //cout << vv[j] << ' ' << v[i][j] << ' ' << val << ' ' << i << endl;
+                    v[i][val] = v[i][j];
+                    pos[v[i][j]] = val;
+                }
+            }
+        }
+        return ans;
+    }
+};
