@@ -1,0 +1,76 @@
+class Solution {
+public:
+    vector<int> Tree[100005],Tree1[100005],dis;
+
+    void dfs(int node,int par) {
+        if(par != -1) dis[node] = dis[par]+1;
+        for(int ch : Tree[node]) {
+            if(ch != par) dfs(ch,node);
+        }
+    }
+
+    void dfs1(int node,int par) {
+        if(par != -1) dis[node] = dis[par]+1;
+        for(int ch : Tree1[node]) {
+            if(ch != par) dfs1(ch,node);
+        }
+    }
+
+    int minimumDiameterAfterMerge(vector<vector<int>>& edges1, vector<vector<int>>& edges2) {
+        for(auto it : edges1) {
+            Tree[it[0]].push_back(it[1]);
+            Tree[it[1]].push_back(it[0]);
+        }
+
+        for(auto it : edges2) {
+            Tree1[it[0]].push_back(it[1]);
+            Tree1[it[1]].push_back(it[0]);
+        }
+
+        int node = 0,mx = 0,mx1 = 0,n = edges1.size()+1,m = edges2.size()+1;
+        dis.resize(n+1,0);
+        dis[node] = 0;
+        dfs(node,-1);
+        for(int i = 0; i < n; i++) {
+            if(dis[i] > mx) {
+                mx = dis[i];
+                node = i;
+            }
+        }
+
+        dis[node] = 0;
+        dfs(node,-1);
+
+        mx = 0;
+        for(int i = 0; i < n; i++) {
+            if(dis[i] > mx) {
+                mx = dis[i];
+            }
+        }
+
+        dis.resize(m+1,0);
+        node = 0;
+        dis[node] = 0;
+        dfs1(node,-1);
+        for(int i = 0; i < m; i++) {
+            //cout << dis[i] << ' ';
+            if(dis[i] > mx1) {
+                mx1 = dis[i];
+                node = i;
+            }
+        }
+        //cout << node << ' ' << mx1 << endl;
+        dis[node] = 0;
+        dfs1(node,-1);
+        mx1 = 0;
+        for(int i = 0; i < m; i++) {
+            if(dis[i] > mx1) {
+                mx1 = dis[i];
+            }
+        }
+        //cout << mx << ' ' << mx1 << endl;
+        int ans = mx/2 + mx%2 + mx1/2 + mx1%2 + 1;
+        ans = max({ans,mx,mx1});
+        return ans;
+    }
+};
