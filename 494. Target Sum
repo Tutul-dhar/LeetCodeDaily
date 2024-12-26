@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int base = 1000;
+    int solve(int ind,int sum,vector<int>& a,vector<vector<int>> &dp,int target) {
+        if(ind == a.size()) {
+            return target == sum;
+        }
+        if(dp[ind][sum+base] != -1) dp[ind][sum+base];
+        int ans = solve(ind+1,sum+a[ind],a,dp,target);
+        ans += solve(ind+1,sum-a[ind],a,dp,target);
+        return dp[ind][sum+base] = ans;
+    }
+    int findTargetSumWays(vector<int>& nums, int target) {
+        vector<vector<int>> dp(21,vector<int>(2010,-1));
+        return solve(0,0,nums,dp,target);
+    }
+};
