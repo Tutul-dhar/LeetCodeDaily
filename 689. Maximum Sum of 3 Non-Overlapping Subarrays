@@ -1,0 +1,53 @@
+class Solution {
+public:
+
+    vector<int> maxSumOfThreeSubarrays(vector<int>& nums, int k) {
+        vector<pair<int,int>> dp(nums.size());
+        int a[nums.size()],pre[nums.size()];
+        int mx = 0,in = 0,val,n=nums.size();
+        for(int i = 0; i < nums.size(); i++) {
+            pre[i] = nums[i];
+            if(i) pre[i]+=pre[i-1];
+        }
+        mx = pre[k-1];
+        val = mx;
+        for(int i = k; i < nums.size()-k; i++) {
+            int e = pre[i+k-1]-pre[i-1];
+            a[i] = val+e;
+            dp[i] = {in,i};
+            mx -= nums[i-k];
+            mx += nums[i];
+            if(mx > val) {
+                in = i-k+1;
+                val = mx;
+            }
+        }
+        pair<int,int> pa;
+        mx = 0;
+        for(int i = k; i < n-k; i++) {
+            if(a[i] > mx) {
+                mx = a[i];
+                pa = dp[i];
+            }
+            //cout << i << ' ' << mx << ' ' << pa.first << ' ' << pa.second << endl;
+            a[i] = mx;
+            dp[i] = pa;
+        }
+        int x,y,z,final_mx = 0;
+        val = 0,mx = 0;
+        for(int i = n-k; i >= 2*k; i--) {
+            int e = pre[i+k-1]-pre[i-1];
+            if(e >= val) {
+                val = e;
+                in = i;
+            }
+            e = val+a[i-k];
+            if(e >= final_mx) {
+                final_mx = e;
+                x = dp[i-k].first,y = dp[i-k].second,z = in;
+            }
+        }
+        //cout << final_mx << endl;
+        return {x,y,z};
+    }
+};
