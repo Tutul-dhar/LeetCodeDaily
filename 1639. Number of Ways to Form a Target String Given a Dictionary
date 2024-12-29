@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int cnt[1001][30],dp[1001][1001],n,m,mod = 1e9+7;
+    int solve(int i,int j,string &s) {
+        if(j >= m) return 1;
+        if(i >= n) return 0;
+        if(dp[i][j] != -1) return dp[i][j];
+        int ans = 0;
+        ans =(ans + (solve(i+1,j,s)))%mod;
+        ans = (ans + (solve(i+1,j+1,s) * 1ll * cnt[i][s[j]-'a'])%mod)%mod;
+        return dp[i][j] = ans;
+    }
+    int numWays(vector<string>& words, string target) {
+        memset(dp,-1,sizeof dp);
+        
+        n = words[0].size();
+        m = target.size();
+        for(auto it : words) {
+            for(int i = 0; i < it.size(); i++) cnt[i][it[i]-'a']++;
+        }
+        return solve(0,0,target);
+    }
+};
