@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string shiftingLetters(string s, vector<vector<int>>& shifts) {
+        int n = s.size();
+        vector<int> v(n+1,0);
+        for(auto it : shifts) {
+            if(it[2]) {
+                v[it[0]]++;
+                v[it[1]+1]--;
+            } else {
+                v[it[0]]--;
+                v[it[1]+1]++;
+            }
+        }
+        for(int i = 1; i < n; i++) v[i] += v[i-1];
+        for(int i = 0; i < n; i++) {
+            int e = s[i] - 'a';
+            e += v[i];
+            while(e < 0) e += 26;
+            e %= 26;
+            s[i] = ('a' + e);
+        }
+        return s;
+    }
+};
