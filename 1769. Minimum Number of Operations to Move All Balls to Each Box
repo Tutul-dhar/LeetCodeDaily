@@ -1,0 +1,24 @@
+class Solution {
+public:
+    vector<int> minOperations(string s) {
+        int tot = 0,n = s.size(),one = 0;
+        vector<int> v(n+2,0),ans;
+        for(int i = 1; i <= n; i++) {
+            if(s[i-1] == '1') {
+                tot += i;
+                v[i] = i;
+                one++;
+            }
+            v[i] += v[i-1];
+        }
+        int left_one = 0;;
+        for(int i = 1; i <= n; i++) {
+            one -= (s[i-1] == '1');
+            int rem = tot - v[i];
+            rem -= (i*one);
+            ans.push_back((left_one*i - v[i-1])+rem);
+            left_one += (s[i-1] == '1');
+        }
+        return ans;
+    }
+};
