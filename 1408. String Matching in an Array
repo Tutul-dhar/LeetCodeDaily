@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<string> stringMatching(vector<string>& words) {
+        map<string,int> ma;
+        for(auto it : words) {
+            for(int i = 0; i < it.size(); i++) {
+                string p = "";
+                for(int j = i; j < it.size(); j++) {
+                    p += it[j];
+                    ma[p]++;
+                }
+            }
+        }
+        vector<string> ans;
+        for(auto it : words) {
+            if(ma[it] > 1) ans.push_back(it);
+        }
+        return ans;
+    }
+};
