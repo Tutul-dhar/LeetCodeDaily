@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool isPrefix(string &a,string &b) {
+        int i = 0, j = 0;
+        while(i < a.size() and a[i] == b[j]) {
+            i++;
+            j++;
+        }
+        return (i == a.size());
+    }
+
+    bool isSuffix(string &a,string &b) {
+        int i = a.size()-1, j = b.size()-1;
+        while(i >= 0 and a[i] == b[j]) {
+            i--;
+            j--;
+        }
+        return (i < 0);
+    }
+    int countPrefixSuffixPairs(vector<string>& words) {
+        int ans = 0;
+        int n = words.size(); 
+        for(int i = 0; i < n; i++) {
+            for(int j = i+1; j < n; j++) {
+                if(words[i].size() > words[j].size()) continue;
+                if(isPrefix(words[i],words[j]) and isSuffix(words[i],words[j])) ans++;
+            }
+        }
+        return ans;
+    }
+};
