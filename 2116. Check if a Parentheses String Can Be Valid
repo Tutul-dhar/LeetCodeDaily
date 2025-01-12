@@ -1,0 +1,36 @@
+class Solution {
+public:
+    bool canBeValid(string s, string locked) {
+        int n = s.size();
+        if(n%2) return false;
+        vector<int>a,b;
+        int j = 0;
+        for(int i = 0; i < n; i++) {
+            if(locked[i] == '0') b.push_back(i);
+            else if(s[i] == '(') a.push_back(i);
+            else if(a.size()) a.pop_back();
+            else if(j < b.size()) j++;
+            else return false;
+        }
+        
+        reverse(a.begin(),a.end());
+        int cnt = 0;
+        while(a.size() and b.size()) {
+            int aa = a.back();
+            while(j < b.size() and b[j] < aa) {
+                j++;
+                cnt++;
+            }
+            if(j < b.size()) {
+                j++;
+                a.pop_back();
+            }
+            else return false;
+        }
+        if(a.size()) return false;
+        cnt += (b.size()-j);
+        if(cnt%2) return false;
+
+        return true; 
+    }
+};
