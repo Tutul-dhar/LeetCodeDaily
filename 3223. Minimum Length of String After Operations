@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int minimumLength(string s) {
+        vector<int> v(26,0);
+        for(char ch : s) v[ch-'a']++;
+        int ans = 0;
+        for(int i = 0; i < 26; i++) {
+            if(v[i]%2) ans++;
+            else ans += min(v[i],2);
+        }
+        return ans;
+    } 
+};
