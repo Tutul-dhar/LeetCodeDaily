@@ -1,4 +1,4 @@
-LinkedIn Prodile: https://www.linkedin.com/in/tutul-dhar-4b8512309/
+LinkedIn Profile: https://www.linkedin.com/in/tutul-dhar-4b8512309/
 
 I strive to solve every daily challenge on LeetCode and save my coding approaches here.
 You can find the solution to any problem by searching for its name in the search bar.
