@@ -1,0 +1,33 @@
+class Solution {
+public:
+    vector<int> g[101];
+    int possible[101][101],vis[101];
+    void dfs(int node,int p) {
+        possible[p][node] = 1;
+        vis[node] = 1;
+        for(int ch : g[node]) {
+            if(vis[ch] == 0) dfs(ch,p);
+        }
+    }
+
+    vector<bool> checkIfPrerequisite(int numCourses, vector<vector<int>>& prerequisites, vector<vector<int>>& queries) {
+        memset(possible,0,sizeof possible);
+        
+        for(auto it : prerequisites) {
+            g[it[0]].push_back(it[1]);
+            
+        }
+        for(int i = 0; i < numCourses; i++) {
+            memset(vis,0,sizeof vis);
+            dfs(i,i);
+        }
+        
+
+        vector<bool> ans;
+        for(auto it : queries) {
+            if(possible[it[0]][it[1]]) ans.push_back(true);
+            else ans.push_back(false);
+        }
+        return ans;
+    }
+};
