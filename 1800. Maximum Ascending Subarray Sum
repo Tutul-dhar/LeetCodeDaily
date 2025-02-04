@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int maxAscendingSum(vector<int>& nums) {
+        int ans = 0,prev = 0,sum = 0,n = nums.size();
+        for(int i = 0; i < n; i++) {
+            if(nums[i] > prev) {
+                sum += nums[i];
+                prev = nums[i];
+                ans = max(ans,sum);
+            } else {
+                prev = nums[i];
+                sum = nums[i];
+                ans = max(ans,sum);
+            }
+        }
+        return ans;
+    }
+};
