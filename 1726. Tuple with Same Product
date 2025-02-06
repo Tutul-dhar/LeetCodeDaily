@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int tupleSameProduct(vector<int>& nums) {
+        unordered_map<int,int> ma;
+        for(int i = 0; i < nums.size(); i++) {
+            for(int j = i+1; j < nums.size(); j++) {
+                ma[nums[i]*nums[j]]++;
+            }
+        }
+        int ans = 0;
+        for(auto it : ma) {
+            int e = it.second;
+            e = (e*(e-1))>>1;
+            e *= 8;
+            ans += e;
+        }
+        return ans;
+    }
+};
