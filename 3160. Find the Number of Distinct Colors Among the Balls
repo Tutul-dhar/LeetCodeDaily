@@ -1,0 +1,25 @@
+class Solution {
+public:
+    vector<int> queryResults(int limit, vector<vector<int>>& queries) {
+        map<int,int> me,ma;
+        vector<int> res;
+        int ans = 0;
+        for(int i = 0;i < queries.size(); i++) {
+            int fi = queries[i][0],se = queries[i][1];
+            int e = me[fi];
+            if(e == se) {
+                res.push_back(ans);
+                continue;
+            }
+            if(e != 0) {
+                ma[e]--;
+                if(ma[e] == 0) ans--;
+            }
+            if(ma[se] == 0) ans++;
+            ma[se]++;
+            me[fi] = se;
+            res.push_back(ans);
+        }
+        return res;
+    }
+};
