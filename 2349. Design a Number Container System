@@ -1,0 +1,21 @@
+class NumberContainers {
+public:
+    map<int,int> ma;
+    map<int,set<int>> me;
+    NumberContainers() {}
+    
+    void change(int index, int number) {
+        if(ma[index] != 0) {
+            int e = ma[index];
+            me[e].erase(index);
+            
+        }
+        ma[index] = number;
+        me[number].insert(index);
+    }
+    
+    int find(int number) {
+        if(me[number].size()) return *me[number].begin();
+        return -1;
+    }
+};
