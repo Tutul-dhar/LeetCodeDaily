@@ -1,0 +1,12 @@
+class Solution {
+public:
+    string clearDigits(string s) {
+        string st="";
+        for(int i = 0; i < s.size(); i++) {
+            if(s[i] >= '0' and s[i] <= '9') {
+                if(st.size()) st.pop_back();
+            } else st += s[i];
+        }
+        return st;
+    }
+};
