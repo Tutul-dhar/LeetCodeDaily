@@ -1,0 +1,28 @@
+class Solution {
+public:
+    int maximumSum(vector<int>& nums) {
+        vector<int> first_max(90,-1),second_max(90,-1);
+        for(int ch : nums) {
+            int p = ch,a = 0;
+            while(p) {
+                a += (p%10);
+                p /= 10;
+            }
+            if(first_max[a] < ch) {
+                second_max[a] = first_max[a];
+                first_max[a] = ch;
+            }
+            else {
+                second_max[a] = max(second_max[a],ch);
+            }
+        }
+        int ans = 0;
+        for(int i = 1; i < 90; i++) {
+            if(first_max[i] != -1 and second_max[i] != -1) {
+                ans = max(ans,first_max[i]+second_max[i]);
+            }
+        }
+        if(ans == 0) ans = -1;
+        return ans;
+    }
+};
