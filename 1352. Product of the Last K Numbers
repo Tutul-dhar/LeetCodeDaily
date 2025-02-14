@@ -1,0 +1,46 @@
+class ProductOfNumbers {
+public:
+    vector<pair<int,int>> pre;
+    vector<int> cnt;
+    ProductOfNumbers() {
+        pre.push_back({1,0});
+        cnt.push_back(0);
+    }
+    
+    void add(int num) {
+        int n = cnt.size();
+        auto it = pre.back();
+        int fi = it.first,se = it.second;
+        
+        if(fi == num) {
+            pre.pop_back();
+            pre.push_back({fi,se+1});
+        } else {
+
+            pre.push_back({num,1});
+        }
+        int ee = cnt[n-1];
+        if(num) {
+            cnt.push_back(ee);
+        }
+        else {
+            cnt.push_back(ee+1);
+       }
+    }
+    
+    int getProduct(int k) {
+        int n = cnt.size();
+        int m = cnt[n-1] - cnt[n-k-1];
+        if(m) return 0;
+        int p = k,ans = 1;
+        for(int i=pre.size()-1; i >= 0; i--) {
+            int fi = pre[i].first,se = pre[i].second;
+            int mn = min(p,se);
+            //cout << mn << ' ' << fi << ' ' << se << endl;
+            ans *= pow(fi,mn);
+            p -= mn;
+            if(p == 0) break;
+        }
+        return ans;
+    }
+};
