@@ -39,3 +39,32 @@ public:
         return s;
     }
 };
+-----------------------------------------------------------------------------
+class Solution {
+public:
+    
+    string smallestNumber(string pattern) {
+        stack<char> s;
+        string ans="";
+        
+        char ch = '1';
+        for(char i : pattern) {
+            s.push(ch);
+            ch++;
+            if(i == 'I') {
+                while(s.size()) {
+                    ans += s.top();
+                    s.pop();
+                }
+            } 
+        }
+        s.push(ch);
+        while(s.size()) {
+                    ans += s.top();
+                    s.pop();
+        }
+        
+
+        return ans;
+    }
+};
