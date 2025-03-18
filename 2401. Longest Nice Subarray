@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int longestNiceSubarray(vector<int>& nums) {
+        int ans = 1,n = nums.size();
+        vector<int> vis(32,-1);
+        for(int i = 0; i < n; i++) {
+            int len = i+1,mx = -1;
+            for(int j = 0; j < 31; j++) {
+                if((nums[i]>>j)&1) {
+                    int p = i - vis[j];
+                    mx = max(mx,vis[j]);
+                    len = min(len,p);
+                    vis[j] = i;
+                }
+            }
+            //cout << mx << endl;
+            for(int j = 0; j < 31; j++) vis[j] = max(mx,vis[j]);
+            //cout << i << ' ' <<  len << endl;
+            ans = max(ans,len);
+        }
+        return ans;
+    }
+};
