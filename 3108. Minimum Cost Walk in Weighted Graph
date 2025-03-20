@@ -1,0 +1,49 @@
+class Solution {
+public:
+    vector<vector<int>> g;
+    vector<int> grp,and_val,vis;
+
+    void dfs(int node,int group) {
+        grp[node] = group;
+        vis[node] = 1;
+        
+
+        for(auto it : g[node]) {
+            if(vis[it] == 0) {
+                dfs(it,group);
+            }
+        }
+
+    }
+
+    vector<int> minimumCost(int n, vector<vector<int>>& edges, vector<vector<int>>& query) {
+        g.resize(n+1);
+        grp.resize(n+1,0);
+        and_val.resize(n+1,-1);
+        vis.resize(n+1,0);
+        vector<vector<int>> v(n+1);
+        for(auto it : edges) {
+            g[it[0]].push_back(it[1]);
+            g[it[1]].push_back(it[0]);
+            v[it[0]].push_back(it[2]);
+        }
+        for(int i = 0; i < n; i++) {
+            if(vis[i] == 0) {
+                dfs(i,i+1);
+            }
+        }
+        for(int i = 0; i < n; i++) {
+            int p = grp[i];
+            if(and_val[p] == -1) {
+                if(v[i].size()) and_val[p] = v[i][0];
+            }
+            for(int ch : v[i]) and_val[p] &= ch;
+        }
+        vector<int> ans;
+        for(auto it : query) {
+            if(grp[it[0]] == grp[it[1]]) ans.push_back(and_val[grp[it[0]]]);
+            else ans.push_back(-1);
+        }
+        return ans;
+    }
+};
